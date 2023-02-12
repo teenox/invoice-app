@@ -30,6 +30,7 @@ CREATE TABLE invoices (
   customer_id INT,
   date DATE,
   due_date DATE,
+  tax_rate DECIMAL(10,2),
   FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
 

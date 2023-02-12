@@ -13,4 +13,8 @@ class InvoiceItemService
     {
         return $this->invoiceItemRepository->createInvoiceItem($invoiceId, $productId, $quantity, $amount);
     }
+
+    public function getInvoiceItems($invoice_id){
+        return $this->invoiceItemRepository->getInvoiceItems($invoice_id);
+    }
 }

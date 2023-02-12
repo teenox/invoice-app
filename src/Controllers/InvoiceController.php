@@ -20,13 +20,13 @@ class InvoiceController
         $this->productService = $productService;
     }
 
-    public function viewInvoices()
+    public function createInvoice()
     {
         $invoices = $this->invoiceService->getInvoices();
-        require_once 'src/Views/invoices_view.php';
+        require_once 'src/Views/CreateInvoice.php';
     }
 
-    public function createInvoice($postData)
+    public function create($postData)
     {
         $customer = $postData['customer'];
         $invoice = $postData['invoice'];
@@ -39,15 +39,18 @@ class InvoiceController
             $products[] = $this->productService->getProduct($productId);
         }
 
-        $invoiceId = $this->invoiceService->createInvoice($customerId, $invoice['date'], $invoice['due_date']);
+        $invoiceId = $this->invoiceService->createInvoice($customerId, $invoice['date'], $invoice['due_date'],$invoice['tax_rate']);
 
         foreach ($products as $product) {
             $this->invoiceItemService->createInvoiceItem($invoiceId, $product['product_id'], 1, $product['amount']);
         }
         
+        $invoiceItems = $this->invoiceItemService->getInvoiceItems($invoiceId);
+        $invoiceCreated = $this->invoiceService->getInvoice($invoiceId);
+        
         $response = array();
         $response['status'] = 'success';
-        $response['message'] = $this->invoiceService->getInvoice($invoiceId);
+        $response['message'] = [$invoiceCreated,$invoiceItems];
 
         echo json_encode($response);
         exit;
@@ -60,8 +63,25 @@ class InvoiceController
 
     public function index()
     {
-        http_response_code(200);
-        echo json_encode(['message' => 'this is a view']);
-        // return "this is a view";
+        $invoices = $this->invoiceService->getInvoices();
+        require_once 'src/Views/Index.php';
+    }
+
+    public function show($id){
+
+        $invoice = $this->invoiceService->getInvoice($id);
+
+        $customer = $this->customerService->getCustomer($invoice['customer_id']);
+
+        $invoiceItems = $this->invoiceItemService->getInvoiceItems($invoice['invoice_id']);
+
+        $products = [];
+
+        foreach ($invoiceItems as $invoiceItem) {
+            $product = $this->productService->getProduct($invoiceItem['product_id']);
+            $products[] = $product;
+        }
+
+        include 'src/Views/ShowInvoice.php';
     }
 }

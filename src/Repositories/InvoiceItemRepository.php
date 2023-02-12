@@ -10,7 +10,20 @@ class InvoiceItemRepository
 
     public function getInvoiceItems($invoiceId)
     {
-        // query the database and return an array of invoice item objects for a given invoice
+        $query = "SELECT i.*, p.product_id as product_id, p.taxed as taxed, p.description as product_description
+        FROM invoice_items i
+        JOIN products p ON i.product_id = p.product_id
+        where i.invoice_id = :invoice_id;";
+
+        try {
+            $stmt = $this->database->prepare($query);
+            $stmt->bindParam("invoice_id", $invoiceId);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return false;
+        }
     }
 
     public function createInvoiceItem($invoice_id, $product_id, $quantity, $amount)

@@ -55,28 +55,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            var count = 1;
-            $("#add_row").click(function () {
-                count++;
-                $("#invoice_table").append(
-                    "<tr>" +
-                    "<td><input name='description' type='text'></input></td>" +
-                    "<td class='column-border text-center pt-1'><input name='taxed' type='checkbox'></td>" +
-                    "<td class='column-border text-right'><input class='text-right' name='amount' type='text'></input></td>" +
-                    "</tr>"
-                );
-            });
-
-            $("#remove_row").click(function () {
-                if (count > 0) {
-                    $("#invoice_table tr:last").remove();
-                    count--;
-                }
-
-            });
-
-            $("#invoice_table").on('change', 'input[name="amount"], input[name="taxed"]', function () {
-                var subtotal = 0;
+            var subtotal = 0;
                 var tax_due = 0;
                 var taxable = 0;
                 var total = 0;
@@ -103,62 +82,6 @@
                 $("#tax_due").text(tax_due.toFixed(2));
                 $("#taxable").text(taxable.toFixed(2));
                 $("#total").text(total.toFixed(2));
-            });
-
-            $("#submitInvoice").click(function (e) {
-                e.preventDefault();
-
-                var products = [];
-                $("#invoice_table tbody tr").each(function () {
-                    var product = {};
-                    product['description'] = $(this).find("input[name='description']").val();
-                    product['taxed'] = $(this).find("input[name='taxed']").prop("checked");
-                    product['amount'] = $(this).find("input[name='amount']").val();
-                    if (product.description !== '' && product.description !== undefined) {
-                        products.push(product);
-                    }
-
-                });
-
-                var request = {};
-                var invoice = {};
-                var customer = {};
-
-                customer['name'] = $("input[name='customer_name']").val();
-                customer['company'] = $("input[name='company_name']").val();
-                customer['address'] = $("input[name='street_address']").val();
-                customer['city'] = $("input[name='city']").val();
-                customer['phone'] = $("input[name='phone_number']").val();
-                customer['fax'] = $("input[name='fax_number']").val();
-                customer['website'] = $("input[name='website']").val();
-                customer['zipcode'] = $("input[name='zipcode']").val();
-                customer['email'] = $("input[name='email']").val();
-                customer['state'] = $("input[name='state']").val();
-                customer['country'] = $("input[name='country']").val();
-
-                request['customer'] = customer;
-
-                invoice['date'] = $("input[name='invoice_date']").val();
-                invoice['due_date'] = $("input[name='due_date']").val();
-
-                request['invoice'] = invoice;
-
-                request['products'] = products;
-
-                $.ajax({
-                    type: "POST",
-                    url: "/create",
-                    data: JSON.stringify(request),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (err) {
-                        console.log("Error creating invoice");
-                    }
-                });
-            });
         });
     </script>
 </head>
@@ -167,34 +90,54 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h1 id="company_name">Company Name</h1>
+                <h1 id="company_name">
+                    <?php echo $invoice['company_name']; ?>
+                </h1>
                 <table class="table table-borderless company-information">
                     <tr>
-                        <td><input type="text" placeholder="[Street Address]"></input></td>
+                        <td>
+                            <?php echo $invoice['street_address']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="city" type="text" placeholder="[City]"></input></td>
+                        <td>
+                            <?php echo $invoice['city']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="zipcode" type="text" placeholder="[ZIP]"></input></td>
+                        <td>
+                            <?php echo $invoice['zipcode']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="state" type="text" placeholder="State"></input></td>
+                        <td>
+                            <?php echo $invoice['state']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="country" type="text" placeholder="Country"></input></td>
+                        <td>
+                            <?php echo $invoice['country']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="phone_number" type="text" placeholder="Phone: [000-000-000]"></input></td>
+                        <td>
+                            <?php echo $invoice['phone_number']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="fax_number" type="text" placeholder="Fax: [000-000-000]"></input></td>
+                        <td>
+                            <?php echo $invoice['fax_number']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="website" type="text" placeholder="Website: someedomain.com"></input></td>
+                        <td>
+                            <?php echo $invoice['website']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="email" type="text" placeholder="email: hi@someedomain.com"></input></td>
+                        <td>
+                            <?php echo $invoice['email']; ?>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -203,23 +146,27 @@
                 <table class="table invoice-details">
                     <tr>
                         <td class="col-md-8" style="text-align: right">DATE</td>
-                        <td class="col-md-4 table-outer-border text-center"><input name="invoice_date" type="date"
-                                placeholder="[Street Address]"></input></td>
+                        <td class="col-md-4 table-outer-border text-center">
+                            <?php echo $invoice['date']; ?>
+                        </td>
                     </tr>
                     <tr>
                         <td class="col-md-8" style="text-align: right">INVOICE #</td>
-                        <td class="col-md-4 table-outer-border text-center"><input name="invoice_id" type="text"
-                                placeholder="[123]" disabled></td>
+                        <td class="col-md-4 table-outer-border text-center">
+                            <?php echo $invoice['invoice_id']; ?>
+                        </td>
                     </tr>
                     <tr>
                         <td class="col-md-8" style="text-align: right">CUSTOMER ID</td>
-                        <td class="col-md-4 table-outer-border text-center"><input name="customer_id" type="text"
-                                placeholder="[123]" disabled></td>
+                        <td class="col-md-4 table-outer-border text-center">
+                            <?php echo $invoice['customer_id']; ?>
+                        </td>
                     </tr>
                     <tr>
                         <td class="col-md-8 text-right" style="text-align: right">DUE DATE</td>
-                        <td class="col-md-4 table-outer-border text-center"><input name="due_date" type="date"
-                                placeholder="[Street Address]"></td>
+                        <td class="col-md-4 table-outer-border text-center">
+                            <?php echo $invoice['due_date']; ?>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -229,19 +176,29 @@
                 <table class="table table-borderless company-information">
                     <th class="blue-th">BILL TO</th>
                     <tr>
-                        <td><input name="customer_name" type="text" placeholder="[Name]"></input></td>
+                        <td>
+                            <?php echo $invoice['customer_name']; ?></input>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="company_name" type="text" placeholder="[Company Name]"></input></td>
+                        <td>
+                            <?php echo $invoice['company_name']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="street_address" type="text" placeholder="[Street Address]"></input></td>
+                        <td>
+                            <?php echo $invoice['street_address']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="city" type="text" placeholder="[City, St Zip]"></input></td>
+                        <td>
+                            <?php echo $invoice['city']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input name="phone" type="text" placeholder="[Phone]"></input></td>
+                        <td>
+                            <?php echo $invoice['phone_number']; ?>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -252,15 +209,23 @@
                     <th class="blue-th text-center col-md-8">DESCRIPTION</th>
                     <th class="blue-th text-center col-md-2">TAXED</th>
                     <th class="blue-th text-center col-md-2">AMOUNT</th>
-                    <tr>
-                        <td><input name='description' type='text'></input></td>
-                        <td class="column-border text-center pt-1"><input name='taxed' type="checkbox"></td>
-                        <td class="column-border text-right"><input class="text-right" name='amount'
-                                type='text'></input></td>
-                    </tr>
+                    <?php foreach ($invoiceItems as $invoiceItem): ?>
+                        <tr>
+                            <td>
+                                <?php echo $invoiceItem['product_description']; ?>
+                            </td>
+                            <td class="column-border text-center pt-1">
+                                <input name='taxed' type="checkbox" <?php echo ($invoiceItem['taxed']) ? 'checked' : ''; ?>
+                                    disabled>
+                            </td>
+                            <td class="column-border text-right">
+                                <input class="text-right" name='amount' type='text'
+                                    value="<?php echo $invoiceItem['amount']; ?>" disabled></input>
+                            </td>
+
+                        </tr>
+                    <?php endforeach; ?>
                 </table>
-                <a id="add_row" class="btn btn-primary">Add Row</a>
-                <a id="remove_row" class="btn btn-danger remove_row">Remove Row</a>
             </div>
         </div>
         <div class="row">
@@ -309,10 +274,7 @@
     </div>
     <div class="fixed-bottom bg-light d-flex justify-content-between p-3">
         <div class="text-left">
-            <a href="#" class="btn btn-secondary">Back to Invoices</a>
-        </div>
-        <div class="text-right">
-            <a id="submitInvoice" class="btn btn-primary">Save Invoice</a>
+            <a href="/" class="btn btn-secondary">Back to Invoices</a>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

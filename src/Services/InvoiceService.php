@@ -12,20 +12,9 @@ class InvoiceService
         $this->invoiceRepository = $invoiceRepository;
     }
 
-
-    public function getInvoiceDetails($invoiceId)
+    public function createInvoice($customeId, $InvoiceDate, $dueDate, $taxRate)
     {
-        // retrieve an invoice, customer, and invoice items from the database
-    }
-
-    public function updateInvoice($invoiceId, $invoiceItems)
-    {
-        // update an invoice in the database
-    }
-
-    public function createInvoice($customer_id, $date, $due_date)
-    {
-        return $this->invoiceRepository->createInvoice($customer_id, $date, $due_date);
+        return $this->invoiceRepository->createInvoice($customeId, $InvoiceDate, $dueDate, $taxRate);
     }
 
     public function getInvoice($invoice_id)

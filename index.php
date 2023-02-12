@@ -2,37 +2,47 @@
 
 require __DIR__ . "\src\Infrastructure\Database\Database.php";
 require __DIR__ . "\src\Infrastructure\Utils\Validator.php";
-require __DIR__ . "\src\Features\Invoice\InvoiceRepository.php";
-require __DIR__ . "\src\Features\InvoiceItem\InvoiceItemRepository.php";
-require __DIR__ . "\src\Features\Product\ProductRepository.php";
-require __DIR__ . "\src\Features\Customer\CustomerRepository.php";
-require __DIR__ . "\src\Features\Customer\Customer.php";
-require __DIR__ . "\src\Infrastructure\Services\InvoiceService.php";
-require __DIR__ . "\src\Infrastructure\Services\InvoiceItemService.php";
-require __DIR__ . "\src\Infrastructure\Services\CustomerService.php";
-require __DIR__ . "\src\Infrastructure\Services\ProductService.php";
+require __DIR__ . "\src\Repositories\InvoiceRepository.php";
+require __DIR__ . "\src\Repositories\InvoiceItemRepository.php";
+require __DIR__ . "\src\Repositories\ProductRepository.php";
+require __DIR__ . "\src\Repositories\CustomerRepository.php";
+require __DIR__ . "\src\Services\InvoiceService.php";
+require __DIR__ . "\src\Services\InvoiceItemService.php";
+require __DIR__ . "\src\Services\CustomerService.php";
+require __DIR__ . "\src\Services\ProductService.php";
 
 
 $routes = [
     'home' => [
         'url' => '/',
         'method' => 'GET',
-        'controller' => 'InvoiceController@index'
+        'controller' => 'InvoiceController@index',
+        'has_parameters' => false
     ],
-    'create_invoice' => [
+    'create_invoice_post' => [
         'url' => '/create',
         'method' => 'POST',
-        'controller' => 'InvoiceController@createInvoice'
+        'controller' => 'InvoiceController@create',
+        'has_parameters' => false
     ],
-    'view_invoice' => [
-        'url' => '/invoice',
+    'create_invoice' => [
+        'url' => '/invoice/create',
         'method' => 'GET',
-        'controller' => 'InvoiceController@viewInvoice'
+        'controller' => 'InvoiceController@createInvoice',
+        'has_parameters' => false
     ],
     'view_invoices' => [
         'url' => '/invoices',
         'method' => 'GET',
-        'controller' => 'InvoiceController@viewInvoices'
+        'controller' => 'InvoiceController@viewInvoices',
+        'has_parameters' => false
+    ],
+    'view_invoice' => [
+        'url' => '/invoice-view/{id}/',
+        'method' => 'GET',
+        'controller' => 'InvoiceController@show',
+        'has_parameters' => true,
+        'regex' => '/invoice-view\/(\d+)/'
     ]
 ];
 
@@ -45,13 +55,18 @@ $customerRepository = new CustomerRepository($database);
 $productRepository = new ProductRepository($database);
 $invoiceRepository = new InvoiceRepository($database);
 $invoiceItemRepository = new InvoiceItemRepository($database);
-$invoiceService = new InvoiceService( $invoiceRepository);
-$invoiceItemService = new InvoiceItemService( $invoiceItemRepository);
-$customerService = new CustomerService( $customerRepository);
+$invoiceService = new InvoiceService($invoiceRepository);
+$invoiceItemService = new InvoiceItemService($invoiceItemRepository);
+$customerService = new CustomerService($customerRepository);
 $productService = new ProductService($productRepository);
 $validator = new Validator();
 
 foreach ($routes as $route) {
+    if ($route['has_parameters']) {
+        preg_match($route['regex'], $currentUrl, $matches);
+        $route['url'] = '/' . $matches[0];
+    }
+
     if ($route['url'] == $currentUrl && $route['method'] == $requestMethod) {
 
         $controllerAction = explode('@', $route['controller']);
@@ -62,21 +77,22 @@ foreach ($routes as $route) {
         if (file_exists($filePath)) {
             require_once $filePath;
 
-            $controller = new $controller( $invoiceService, $invoiceItemService, $customerService, $productService ,$validator);
+            $controller = new $controller($invoiceService, $invoiceItemService, $customerService, $productService, $validator);
 
             if ($requestMethod === 'POST') {
                 $post_data = json_decode(file_get_contents("php://input"), true);
                 $controller->$action($post_data);
                 break;
-            } 
-            
+            }
+
+            if ($route['has_parameters']) {
+                $params = explode('/', $matches[0]);
+                $controller->$action($params[1]);
+                break;
+            }
+
             $controller->$action();
 
-            break;
-        } else {
-            // Return a 404 response if the controller file doesn't exist
-            header("HTTP/1.0 404 Not Found");
-            echo '404 Not Found';
             break;
         }
     }
