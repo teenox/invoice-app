@@ -9,14 +9,14 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
-    public function createProduct($name, $description, $taxed, $price)
+    public function createProduct($description, $taxed, $amount)
     {
-        return $this->productRepository->createProduct($name, $description, $taxed, $price);
+        return $this->productRepository->createProduct($description, $taxed, $amount);
     }
 
     public function create($productData)
     {
-        return $this->productRepository->createProduct($productData['name'], $productData['description'], $productData['taxed'], $productData['price']);
+        return $this->productRepository->createProduct($productData['description'], $productData['taxed'], $productData['amount']);
     }
 
     public function getProducts()

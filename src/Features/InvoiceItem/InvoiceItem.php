@@ -5,15 +5,15 @@ class InvoiceItem {
     private $invoiceId;
     private $productId;
     private $quantity;
-    private $price;
+    private $amount;
 
-    public function __construct($invoiceItemId, $invoiceId, $productId, $quantity, $price)
+    public function __construct($invoiceItemId, $invoiceId, $productId, $quantity, $amount)
     {
         $this->invoiceItemId = $invoiceItemId;
         $this->invoiceId = $invoiceId;
         $this->productId = $productId;
         $this->quantity = $quantity;
-        $this->price = $price;
+        $this->amount = $amount;
     }
 
     public function getInvoiceItemId()
@@ -36,9 +36,9 @@ class InvoiceItem {
         return $this->quantity;
     }
 
-    public function getPrice()
+    public function getAmount()
     {
-        return $this->price;
+        return $this->amount;
     }
 
 }

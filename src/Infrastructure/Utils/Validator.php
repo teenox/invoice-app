@@ -90,7 +90,7 @@ class Validator
         if (!isset($data['taxed'])) {
             $errors[] = 'Name is empty';
         }
-        if (!isset($data['price'])) {
+        if (!isset($data['amount'])) {
             $errors[] = 'Name is empty';
         }
         return $errors;

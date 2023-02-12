@@ -42,10 +42,15 @@ class MainController
         $invoiceId = $this->invoiceService->createInvoice($customerId, $invoice['date'], $invoice['due_date']);
 
         foreach ($products as $product) {
-            $this->invoiceItemService->createInvoiceItem($invoiceId, $product['product_id'], 1, $product['price']);
+            $this->invoiceItemService->createInvoiceItem($invoiceId, $product['product_id'], 1, $product['amount']);
         }
-        http_response_code(201);
-        echo json_encode(['message' => $this->invoiceService->getInvoice($invoiceId)]);
+        
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = $this->invoiceService->getInvoice($invoiceId);
+
+        echo json_encode($response);
+        exit;
     }
 
     public function viewInvoice($invoiceId)

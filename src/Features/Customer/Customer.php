@@ -4,6 +4,7 @@ class Customer
 {
     private $customerId;
     private $name;
+    private $company;
     private $address;
     private $city;
     private $state;
@@ -14,10 +15,11 @@ class Customer
     private $website;
     private $fax;
 
-    public function __construct($customerId, $name, $address, $city, $state, $zipcode, $country, $email, $phone, $website, $fax)
+    public function __construct($customerId, $name,$company, $address, $city, $state, $zipcode, $country, $email, $phone, $website, $fax)
     {
         $this->customerId = $customerId;
         $this->name = $name;
+        $this->company = $company;
         $this->address = $address;
         $this->city = $city;
         $this->state = $state;
@@ -37,6 +39,10 @@ class Customer
     public function getName()
     {
         return $this->name;
+    }
+    public function getCompany()
+    {
+        return $this->company;
     }
 
     public function getAddress()

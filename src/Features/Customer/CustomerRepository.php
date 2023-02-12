@@ -26,14 +26,15 @@ class CustomerRepository
         return $result;
     }
 
-    public function createCustomer($name, $address, $city, $state, $zipcode, $country, $email, $phone, $website, $fax)
+    public function createCustomer($name, $company, $address, $city, $state, $zipcode, $country, $email, $phone, $website, $fax)
     {
-        $query = "INSERT INTO customers (name, address, city, state, zipcode, country, email, phone, website, fax) 
-              VALUES (:name, :address, :city, :state, :zipcode, :country, :email, :phone, :website, :fax)";
+        $query = "INSERT INTO customers (name, company, address, city, state, zipcode, country, email, phone, website, fax) 
+              VALUES (:name, :company, :address, :city, :state, :zipcode, :country, :email, :phone, :website, :fax)";
         try {
             $stmt = $this->database->prepare($query);
             $stmt->execute([
                 'name' => $name,
+                'company' => $company,
                 'address' => $address,
                 'city' => $city,
                 'state' => $state,

@@ -2,28 +2,21 @@
 
 class Product {
     private $productId;
-    private $name;
     private $description;
     private $taxed;
-    private $price;
+    private $amount;
 
-    public function __construct($productId, $name, $description, $taxed, $price)
+    public function __construct($productId, $description, $taxed, $amount)
     {
         $this->productId = $productId;
-        $this->name = $name;
         $this->description = $description;
         $this->taxed = $taxed;
-        $this->price = $price;
+        $this->amount = $amount;
     }
 
     public function getProductId()
     {
         return $this->productId;
-    }
-
-    public function getName()
-    {
-        return $this->name;
     }
 
     public function getDescription()
@@ -36,8 +29,8 @@ class Product {
         return $this->taxed;
     }
 
-    public function getPrice()
+    public function getAmount()
     {
-        return $this->price;
+        return $this->amount;
     }
 }

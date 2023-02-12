@@ -13,62 +13,24 @@ require __DIR__ . "\src\Infrastructure\Services\CustomerService.php";
 require __DIR__ . "\src\Infrastructure\Services\ProductService.php";
 
 
-// $routes = [
-//     'home' => [
-//         'url' => '/invoice-api/',
-//         'method' => 'GET',
-//         'controller' => 'InvoiceController@index'
-//     ],
-//     'home_post' => [
-//         'url' => '/invoice-api/create',
-//         'method' => 'POST',
-//         'controller' => 'InvoiceController@create'
-//     ],
-//     'customer_post' => [
-//         'url' => '/invoice-api/customer/create',
-//         'method' => 'POST',
-//         'controller' => 'CustomerController@create'
-//     ],
-//     'customer_get' => [
-//         'url' => '/invoice-api/customer/create',
-//         'method' => 'GET',
-//         'controller' => 'CustomerController@get'
-//     ],
-//     'product_post' => [
-//         'url' => '/invoice-api/product/create',
-//         'method' => 'POST',
-//         'controller' => 'ProductController@create'
-//     ],
-//     'invoiceItem_post' => [
-//         'url' => '/invoice-api/invoiceItem/create',
-//         'method' => 'POST',
-//         'controller' => 'InvoiceItemController@create'
-//     ],
-//     'main_post' => [
-//         'url' => '/invoice-api/main/create',
-//         'method' => 'POST',
-//         'controller' => 'MainController@createInvoice'
-//     ]
-// ];
-
 $routes = [
     'home' => [
-        'url' => '/invoice-api/',
+        'url' => '/',
         'method' => 'GET',
         'controller' => 'MainController@index'
     ],
     'create_invoice' => [
-        'url' => '/invoice-api/create',
+        'url' => '/create',
         'method' => 'POST',
         'controller' => 'MainController@createInvoice'
     ],
     'view_invoice' => [
-        'url' => '/invoice-api/invoice/',
+        'url' => '/invoice',
         'method' => 'GET',
         'controller' => 'MainController@viewInvoice'
     ],
     'view_invoices' => [
-        'url' => '/invoice-api/invoices',
+        'url' => '/invoices',
         'method' => 'GET',
         'controller' => 'MainController@viewInvoices'
     ]

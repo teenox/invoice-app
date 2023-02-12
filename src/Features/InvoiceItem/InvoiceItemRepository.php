@@ -13,9 +13,9 @@ class InvoiceItemRepository
         // query the database and return an array of invoice item objects for a given invoice
     }
 
-    public function createInvoiceItem($invoice_id, $product_id, $quantity, $price)
+    public function createInvoiceItem($invoice_id, $product_id, $quantity, $amount)
     {
-        $sql = 'INSERT INTO invoice_items (invoice_id, product_id, quantity, price) VALUES (:invoice_id, :product_id, :quantity, :price)';
+        $sql = 'INSERT INTO invoice_items (invoice_id, product_id, quantity, amount) VALUES (:invoice_id, :product_id, :quantity, :amount)';
 
         try {
             $stmt = $this->database->prepare($sql);
@@ -23,7 +23,7 @@ class InvoiceItemRepository
                 ':invoice_id' => $invoice_id,
                 ':product_id' => $product_id,
                 ':quantity' => $quantity,
-                ':price' => $price
+                ':amount' => $amount
             ]);
 
             return $this->database->lastInsertedId();

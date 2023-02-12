@@ -37,16 +37,15 @@ class ProductRepository
         }
     }
 
-    public function createProduct($name, $description, $taxed, $price)
+    public function createProduct($description, $taxed, $amount)
     {
-        $query = "INSERT INTO products (name, description, taxed, price)
-                  VALUES (:name, :description, :taxed, :price)";
+        $query = "INSERT INTO products (description, taxed, amount)
+                  VALUES  (:description, :taxed, :amount)";
         try {
             $stmt = $this->database->prepare($query);
-            $stmt->bindValue(':name', $name);
             $stmt->bindValue(':description', $description);
             $stmt->bindValue(':taxed', $taxed);
-            $stmt->bindValue(':price', $price);
+            $stmt->bindValue(':amount', $amount);
 
             $stmt->execute();
 
