@@ -17,22 +17,22 @@ $routes = [
     'home' => [
         'url' => '/',
         'method' => 'GET',
-        'controller' => 'MainController@index'
+        'controller' => 'InvoiceController@index'
     ],
     'create_invoice' => [
         'url' => '/create',
         'method' => 'POST',
-        'controller' => 'MainController@createInvoice'
+        'controller' => 'InvoiceController@createInvoice'
     ],
     'view_invoice' => [
         'url' => '/invoice',
         'method' => 'GET',
-        'controller' => 'MainController@viewInvoice'
+        'controller' => 'InvoiceController@viewInvoice'
     ],
     'view_invoices' => [
         'url' => '/invoices',
         'method' => 'GET',
-        'controller' => 'MainController@viewInvoices'
+        'controller' => 'InvoiceController@viewInvoices'
     ]
 ];
 

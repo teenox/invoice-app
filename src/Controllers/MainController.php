@@ -1,6 +1,6 @@
 <?php
 
-class MainController
+class InvoiceController
 {
     private $invoiceService;
     private $invoiceItemService;

@@ -2,9 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
-class MainControllerTest extends TestCase
+class InvoiceControllerTest extends TestCase
 {
-    private $mainController;
+    private $InvoiceController;
     private $invoiceService;
     private $invoiceItemService;
     private $customerService;
@@ -16,14 +16,14 @@ class MainControllerTest extends TestCase
         require "src\Infrastructure\Services\InvoiceItemService.php";
         require "src\Infrastructure\Services\CustomerService.php";
         require "src\Infrastructure\Services\ProductService.php";
-        require "src\Controllers\MainController.php";
+        require "src\Controllers\InvoiceController.php";
 
 
         $this->invoiceService = $this->createMock(InvoiceService::class);
         $this->invoiceItemService = $this->createMock(InvoiceItemService::class);
         $this->customerService = $this->createMock(CustomerService::class);
         $this->productService = $this->createMock(ProductService::class);
-        $this->mainController = new MainController(
+        $this->InvoiceController = new InvoiceController(
                 $this->invoiceService,
                 $this->invoiceItemService,
                 $this->customerService,
@@ -54,7 +54,7 @@ class MainControllerTest extends TestCase
             ->method('getInvoices')
             ->willReturn($invoices);
 
-        //$response = $this->mainController->viewInvoices();
+        //$response = $this->InvoiceController->viewInvoices();
         $this->assertEquals(200, http_response_code());
         // $this->assertEquals(json_encode(['message' => $invoices]), $response);
     }
