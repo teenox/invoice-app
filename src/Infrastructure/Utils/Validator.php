@@ -1,5 +1,5 @@
 <?php
-// Define the invoice validator
+
 class Validator
 {
     public function validate($data)
