@@ -63,7 +63,7 @@
                 count++;
                 $("#invoice_table").append(
                     "<tr>" +
-                    "<td><input name='description' type='text'></input></td>" +
+                    "<td><input name='description' placeholder='Enter description' type='text'></input></td>" +
                     "<td class='column-border text-center pt-1'><input name='taxed' type='checkbox'></td>" +
                     "<td class='column-border text-right'><input class='text-right' name='amount' type='text'></input></td>" +
                     "</tr>"
@@ -259,7 +259,7 @@
                     <th class="blue-th text-center col-md-2">TAXED</th>
                     <th class="blue-th text-center col-md-2">AMOUNT</th>
                     <tr>
-                        <td><input name='description' type='text'></input></td>
+                        <td><input name='description' placeholder="Enter description" type='text'></input></td>
                         <td class="column-border text-center pt-1"><input name='taxed' type="checkbox"></td>
                         <td class="column-border text-right"><input class="text-right" name='amount'
                                 type='text'></input></td>
