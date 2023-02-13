@@ -1,6 +1,12 @@
 <?php
+interface CustomerServiceInterface
+{
+    public function createCustomer($name, $company, $address, $city, $state, $zipcode, $country, $email, $phone, $website, $fax);
+    public function create($customerData);
+    public function getCustomer($id);
+}
 
-class CustomerService
+class CustomerService implements CustomerServiceInterface
 {
     private $customerRepository;
 
@@ -16,7 +22,7 @@ class CustomerService
 
     public function create($customerData)
     {
-        return $this->customerRepository->createCustomer($customerData['name'],$customerData['company'], $customerData['address'], $customerData['city'], $customerData['state'], $customerData['zipcode'], $customerData['country'], $customerData['email'], $customerData['phone'], $customerData['website'], $customerData['fax']);
+        return $this->customerRepository->createCustomer($customerData['name'], $customerData['company'], $customerData['address'], $customerData['city'], $customerData['state'], $customerData['zipcode'], $customerData['country'], $customerData['email'], $customerData['phone'], $customerData['website'], $customerData['fax']);
     }
 
     public function getCustomer($id)

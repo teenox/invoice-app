@@ -1,6 +1,13 @@
 <?php
 
-class CustomerRepository
+interface CustomerRepositoryInterface
+{
+    public function getCustomers();
+    public function getCustomer($customerId);
+    public function createCustomer($name, $company, $address, $city, $state, $zipcode, $country, $email, $phone, $website, $fax);
+}
+
+class CustomerRepository implements CustomerRepositoryInterface
 {
     private $database;
 

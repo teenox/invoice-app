@@ -1,6 +1,12 @@
 <?php
 
-class InvoiceItemService
+interface InvoiceItemServiceInterface
+{
+    public function createInvoiceItem($invoiceId, $productId, $quantity, $amount);
+    public function getInvoiceItems($invoice_id);
+}
+
+class InvoiceItemService implements InvoiceItemServiceInterface
 {
     private $invoiceItemRepository;
 
@@ -14,7 +20,8 @@ class InvoiceItemService
         return $this->invoiceItemRepository->createInvoiceItem($invoiceId, $productId, $quantity, $amount);
     }
 
-    public function getInvoiceItems($invoice_id){
+    public function getInvoiceItems($invoice_id)
+    {
         return $this->invoiceItemRepository->getInvoiceItems($invoice_id);
     }
 }

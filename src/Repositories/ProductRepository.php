@@ -1,6 +1,13 @@
 <?php
 
-class ProductRepository
+interface ProductRepositoryInterface
+{
+    public function getProducts();
+    public function getProduct($productId);
+    public function createProduct($description, $taxed, $amount);
+}
+
+class ProductRepository implements ProductRepositoryInterface
 {
     private $database;
 

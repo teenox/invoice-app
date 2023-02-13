@@ -1,5 +1,12 @@
 <?php
-class InvoiceItemRepository
+
+interface InvoiceItemRepositoryInterface
+{
+    public function getInvoiceItems($invoiceId);
+    public function createInvoiceItem($invoice_id, $product_id, $quantity, $amount);
+}
+
+class InvoiceItemRepository implements InvoiceItemRepositoryInterface
 {
     private $database;
 

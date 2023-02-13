@@ -1,6 +1,13 @@
 <?php
 
-class InvoiceService
+interface InvoiceServiceInterface
+{
+    public function createInvoice($customeId, $InvoiceDate, $dueDate, $taxRate);
+    public function getInvoice($invoice_id);
+    public function getInvoices();
+}
+
+class InvoiceService implements InvoiceServiceInterface
 {
     private $customerRepository;
     private $productRepository;

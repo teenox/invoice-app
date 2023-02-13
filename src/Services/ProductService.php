@@ -1,6 +1,14 @@
 <?php
 
-class ProductService
+interface ProductServiceInterface
+{
+    public function createProduct($description, $taxed, $amount);
+    public function create($productData);
+    public function getProducts();
+    public function getProduct($productId);
+}
+
+class ProductService implements ProductServiceInterface
 {
     private $productRepository;
 

@@ -1,6 +1,12 @@
 <?php
 
-class InvoiceRepository
+interface InvoiceRepositoryInterface
+{
+    public function getInvoices();
+    public function getInvoice($invoiceId);
+    public function createInvoice($customerId, $invoiceDate, $dueDate, $taxRate);
+}
+class InvoiceRepository implements InvoiceRepositoryInterface
 {
     private $database;
 
