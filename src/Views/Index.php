@@ -39,8 +39,7 @@
                         </td>
                         <td>
                             <a href="/invoice-view/<?php echo $invoice['invoice_id']; ?>"
-                                class="btn btn-info btn-sm">View</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                class="btn btn-info">View</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

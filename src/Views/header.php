@@ -156,10 +156,8 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data.message);
                         alert("Invoice created successfully!");
-                        createdInvoice = data;
-
+                        window.location = "/";
                     },
                     error: function (err) {
                         console.log("Error creating invoice");
