@@ -6,18 +6,21 @@ class InvoiceController
     private $invoiceItemService;
     private $customerService;
     private $productService;
+    private $validator;
 
     public function __construct(
         InvoiceService $invoiceService,
         InvoiceItemService $invoiceItemService,
         CustomerService $customerService,
-        ProductService $productService
+        ProductService $productService,
+        Validator $validator
     )
     {
         $this->invoiceService = $invoiceService;
         $this->invoiceItemService = $invoiceItemService;
         $this->customerService = $customerService;
         $this->productService = $productService;
+        $this->validator = $validator;
     }
 
     public function createInvoice()
@@ -27,7 +30,13 @@ class InvoiceController
     }
 
     public function create($postData)
-    {
+    {   
+        if (!$this->validator->validate($postData)) {
+            http_response_code(400);
+            echo 'Bad Request: Invalid data provided';
+            exit;
+        }
+
         $customer = $postData['customer'];
         $invoice = $postData['invoice'];
         $productsData = $postData['products'];
