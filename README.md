@@ -15,7 +15,7 @@ What things you need to install the software and how to install them:
 ## Installing
 1. Clone the repository to your local machine using git clone https://github.com/teenox/invoice_app.git
 2. Navigate to the project directory using cd invoice_app
-3. Create a database for the application and configure the database credentials in the .env file
+3. Create a database for the application and configure the database credentials in the `index.php` file on line 52.
 4. Run the Database table queries in Database/schema
 5. Navigate to the project root director and start the development server using `php -S localhost:8000`
 6. Visit http://localhost:8000 in your browser to see the application in action.
