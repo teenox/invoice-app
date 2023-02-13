@@ -18,19 +18,31 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     public function getCustomers()
     {
-        $stmt = $this->database->prepare("SELECT * FROM customers");
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        $query = "SELECT * FROM customers";
+        try {
+            $stmt = $this->database->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return false;
+        }
     }
 
     public function getCustomer($customerId)
     {
-        $stmt = $this->database->prepare("SELECT * FROM customers WHERE customer_id = :customer_id");
-        $stmt->bindParam(':customer_id', $customerId, PDO::PARAM_INT);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
+        $query = "SELECT * FROM customers WHERE customer_id = :customer_id";
+        try {
+            $stmt = $this->database->prepare($query);
+            $stmt->bindParam(':customer_id', $customerId, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return false;
+        }
     }
 
     public function createCustomer($name, $company, $address, $city, $state, $zipcode, $country, $email, $phone, $website, $fax)
